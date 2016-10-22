@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import ChameleonFramework
 
 class ViewController: UIViewController {
-
+    
     @IBOutlet var txtDistancia: UITextField!
     @IBOutlet var segEntrada: UISegmentedControl!
     @IBOutlet var segSalida: UISegmentedControl!
@@ -17,37 +18,44 @@ class ViewController: UIViewController {
     
     let mileUnit = 1.609
     
+    
+    //MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        lblResultado.text = ""
+        //Set Chameleon Colors
+        Chameleon.setGlobalThemeUsingPrimaryColor(UIColor.flatRed(), with: UIContentStyle.light)
+        
+        
+        //        self.setThemeUsingPrimaryColor(UIColor.flatRed(), with: UIContentStyle.contrast)
+        self.navigationController?.navigationBar.barTintColor = UIColor.flatRed()
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.black
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
+        
+        
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
     
+    
+    //MARK: IBActions
     @IBAction func segmentChange(_ sender: UISegmentedControl) {
         let SelectedIndex = segEntrada.selectedSegmentIndex
         
-        if SelectedIndex == 0 {
-            txtDistancia.placeholder = "Ingrese distancia en Millas"
-        }else if SelectedIndex == 1{
-            txtDistancia.placeholder = "Ingrese distancia en Kilometros"
-        }else{
-            txtDistancia.placeholder = "Ingrese distancia en Yardas"
-        }
+        
         
     }
     
     @IBAction func convertir(_ sender: UIButton) {
         
         //if(txtDistancia.text != ""){
-            
+        
         if let distancia = Double(txtDistancia.text!) {
             
             //let distancia = Double(txtDistancia.text!)!
@@ -108,12 +116,12 @@ class ViewController: UIViewController {
             
             let res = String(format: "%.2f", resultado)
             
-            lblResultado.text = "\(distancia) \(textoEntrada!) = \(res) \(textoSalida!)"
+            lblResultado.text = "\(res)"
         }else{
-        
+            
             let alertVacio = UIAlertController(title: "Oops",
                                                message: "Este campo solo acepta caracteres numericos",
-                                               preferredStyle: .alert)
+                                               preferredStyle: UIAlertControllerStyle.alert)
             
             let Ok = UIAlertAction(title: "Ok", style: .default, handler: nil)
             
@@ -130,6 +138,6 @@ class ViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return false
     }
-
+    
 }
 
